@@ -4,16 +4,19 @@ const signInButton = document.getElementById("sign-in-button");
 const signInView = document.getElementById("sign-in-view");
 const homeView = document.getElementById("home-view");
 const userView = document.getElementById("user-view-btn");
+const musicView = document.getElementById("music-view-btn");
 const navigationItems = document.querySelector(".navigation-items");
 const sliderNavigation = document.querySelector(".slider-navigation");
 const homebtn = document.querySelector("#homebtn");
 const userStatsView = document.getElementById("user-stats-view")
+const musicStatsView = document.getElementById("music-stats-view");
 
 
 homebtn.addEventListener("click", () => {
     homeView.style.display = 'block';
     signInView.style.display = 'none';
-    userStatsView.style.display = "none"
+    userStatsView.style.display = "none";
+    musicStatsView.style.display = 'none';
     document.getElementById("profile-view-content").style.display = 'none';
     sliderNav(0);
 });
@@ -28,7 +31,8 @@ function displayProfile(user) {
         signInView.style.display = 'none';
         profileView.style.display = 'block';
         sliderNavigation.style.display = 'none';
-        userStatsView.style.display = "none"
+        userStatsView.style.display = "none";
+        musicStatsView.style.display = 'none';
     });
 
     navigationItems.appendChild(profileBtn);
@@ -62,7 +66,8 @@ function displayProfile(user) {
     signInView.style.display = 'none';
     profileView.style.display = 'block';
     sliderNavigation.style.display = 'none';
-    userStatsView.style.display = "none"
+    userStatsView.style.display = "none";
+    musicStatsView.style.display = 'none';
 }
 
 var sliderNav = function(manual) {
@@ -77,7 +82,8 @@ var sliderNav = function(manual) {
     btns[manual].classList.add("active");
     document.getElementById(btns[manual].getAttribute('data-view')).style.display = 'block';
     sliderNavigation.style.display = 'flex';
-    userStatsView.style.display = "none"
+    userStatsView.style.display = "none";
+    musicStatsView.style.display = 'none';
 }
 
 btns.forEach((btn, i) => {
@@ -90,7 +96,8 @@ signInButton.addEventListener("click", () => {
     homeView.style.display = 'none';
     signInView.style.display = 'block';
     sliderNavigation.style.display = 'none';
-    userStatsView.style.display = "none"
+    userStatsView.style.display = "none";
+    musicStatsView.style.display = 'none';
 });
 
 document.getElementById("sign-in-form").addEventListener("submit", (event) => {
@@ -124,14 +131,26 @@ userView.addEventListener("click", () => {
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
+    const profileView = document.getElementById("profile-view-content")
+    profileView.style.display = 'none';
     displayUserStatsView();
 });
+
+musicView.addEventListener("click", () => {
+    homeView.style.display = "none";
+    signInView.style.display = "none";
+    sliderNavigation.style.display = "none";
+    const profileView = document.getElementById("profile-view-content")
+    profileView.style.display = 'none';
+    displayMusicStatsView();
+});
+
 
 function displayUserStatsView() {
     userStatsView.innerHTML = `
         <h1>User Stats</h1>
-        <input type="text" id="tiktoker-search" placeholder="Search for a TikToker" />
-        <button id="search-button">Search</button>
+        <input type="text" id="tiktoker-search" class = "search" placeholder="Search for a TikToker" />
+        <button id="tiktoker-search-button" class="search-button">Search</button>
         <div id="tiktoker-profile"></div>
     `;
     views.forEach((view) => {
@@ -139,7 +158,7 @@ function displayUserStatsView() {
     });
     userStatsView.style.display = 'block';
 
-    document.getElementById("search-button").addEventListener("click", searchTiktokerHandler);
+    document.getElementById("tiktoker-search-button").addEventListener("click", searchTiktokerHandler);
 
     const lastUserStats = JSON.parse(localStorage.getItem('lastUserStats'));
     if (lastUserStats) {
@@ -186,6 +205,66 @@ function displayTiktokerProfile(profile) {
         `;
     } else {
         profileDiv.innerHTML = `<p>User not found or missing profile information</p>`;
+    }
+}
+
+function displayMusicStatsView() {
+    musicStatsView.innerHTML = `
+        <h1>Music Stats</h1>
+        <input type="text" id="music-search" class = "search" placeholder="Search for Music" />
+        <button id="music-search-button" class = "search-button">Search</button>
+        <div id="music-profile"></div>
+    `;
+    views.forEach((view) => {
+        view.style.display = 'none';
+    });
+    musicStatsView.style.display = 'block';
+
+    document.getElementById("music-search-button").addEventListener("click", searchMusicHandler);
+
+    const lastMusicStats = JSON.parse(localStorage.getItem('lastMusicStats'));
+    if (lastMusicStats) {
+        displayMusicProfile(lastMusicStats); // Display last music stats if available
+    }
+}
+
+async function searchMusicHandler() {
+    const musicId = document.getElementById("music-search").value;
+    if (musicId) {
+        try {
+            const response = await fetch(`/search-music?musicId=${musicId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const musicInfo = await response.json();
+            displayMusicProfile(musicInfo);
+            localStorage.setItem('lastMusicStats', JSON.stringify(musicInfo)); // Save last music stats
+        } catch (error) {
+            console.error(error);
+            document.getElementById("music-profile").innerHTML = `<p>Error fetching music data: ${error.message}</p>`;
+        }
+    }
+}
+
+function displayMusicProfile(musicInfo) {
+    const musicDiv = document.getElementById("music-profile");
+    if (musicInfo) {
+        musicDiv.innerHTML = `
+            <div id="music-profile-card">
+                <div id="music-profile-card-upper">
+                    <img src="${musicInfo.music.coverThumb}" alt="Cover Picture">
+                </div>
+                <h1>${musicInfo.music.title}</h1>
+                <p>Author: ${musicInfo.music.authorName}</p>
+                <p>Duration: ${musicInfo.music.duration} seconds</p>
+                <p>Music ID: ${musicInfo.music.id}</p>
+                <p>Video Count: ${musicInfo.stats.videoCount}</p>
+                <p><a href="${musicInfo.music.playURL}" target="_blank">Play URL</a></p>
+
+            </div>
+        `;
+    } else {
+        musicDiv.innerHTML = `<p>Music not found or missing profile information</p>`;
     }
 }
 

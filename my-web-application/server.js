@@ -31,6 +31,23 @@ app.get('/search-tiktoker', async (req, res) => {
   }
 });
 
+app.get('/search-music', async (req, res) => {
+    const musicId = req.query.musicId;
+    try {
+      console.log(`Searching for Music: ${musicId}`);
+      const response = await api.public.musicInfo({ id: musicId });
+      console.log('TikAPI response:', response);
+      if (response.json && response.json.musicInfo) {
+        res.json(response.json.musicInfo);
+      } else {
+        throw new Error('No music info in response');
+      }
+    } catch (error) {
+      console.error('Error fetching music data:', error);
+      res.status(500).json({ error: 'Failed to fetch music data' });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
