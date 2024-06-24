@@ -1,23 +1,9 @@
-// import TikAPI from 'tikapi';
-
-// const api = TikAPI("s64wichcgCk0fHDQbsKHlQXIxZv8kr4z02I39lgVf3uTT3Pj");
-
-// api.set({
-//     $sandbox: true
-// });
-
-// await api.public.check({
-//     username: "lilyachty"
-// })
-
 const btns = document.querySelectorAll(".nav-btn");
 const views = document.querySelectorAll(".view1");
 const signInButton = document.getElementById("sign-in-button");
 const signInView = document.getElementById("sign-in-view");
 const homeView = document.getElementById("home-view");
 const navigationItems = document.querySelector(".navigation-items");
-const sliderNavigation = document.querySelector(".slider-navigation");
-
 
 function displayProfile(user) {
     // Create the profile button in the header
@@ -29,7 +15,6 @@ function displayProfile(user) {
         homeView.style.display = 'none';
         signInView.style.display = 'none';
         profileView.style.display = 'block';
-        sliderNavigation.style.display = "none"
     });
 
     navigationItems.appendChild(profileBtn);
@@ -39,16 +24,17 @@ function displayProfile(user) {
     profileView.id = "profile-view-content";
     profileView.className = "view1";
     profileView.innerHTML = `
-        <div id="profile-card">
-        <h1>Profile</h1>
-        <p>First Name: ${user.firstName}</p>
-        <p>Last Name: ${user.lastName}</p>
-        <p>Username: ${user.username}</p>
-        <img src="${user.picture}" alt="Profile Picture" style="width: 100px; height: 100px;">
-        <button id="delete-profile">Delete Profile</button>
+        <div id = "profile-card">
+            <div id="profile-card-upper">
+                <img src="${user.picture}" alt="Profile Picture" >
+            </div>
+            <h1>${user.firstName} ${user.lastName}</h1>
+            <h2>Username: ${user.username}</h2>
+            <p>WELCOME BACK!</p>
+            <button id="delete-profile">Delete Profile</button>
         </div>
     `;
-    document.querySelector(".home").appendChild(profileView);
+    document.querySelector("main").appendChild(profileView);
 
     // Add delete profile functionality
     document.getElementById("delete-profile").addEventListener("click", () => {
@@ -61,14 +47,12 @@ function displayProfile(user) {
 
         // Redirect to home view
         homeView.style.display = 'block';
-        sliderNavigation.style.display = 'block';
     });
 
     // Show profile view if already logged in
     homeView.style.display = 'none';
     signInView.style.display = 'none';
     profileView.style.display = 'block';
-    sliderNavigation.style.display = 'none';
 }
 
 var sliderNav = function(manual) {
@@ -82,7 +66,6 @@ var sliderNav = function(manual) {
 
     btns[manual].classList.add("active");
     document.getElementById(btns[manual].getAttribute('data-view')).style.display = 'block';
-    sliderNavigation.style.display = 'block';
 }
 
 btns.forEach((btn, i) => {
@@ -91,31 +74,9 @@ btns.forEach((btn, i) => {
     });
 });
 
-document.getElementById("user-view-btn").addEventListener("click", () => {
-    homeView.style.display = 'none';
-    signInView.style.display = 'none';
-    document.getElementById("user-view").style.display = 'block';
-    sliderNavigation.style.display = 'none';
-});
-
-document.getElementById("hashtag-view-btn").addEventListener("click", () => {
-    homeView.style.display = 'none';
-    signInView.style.display = 'none';
-    document.getElementById("hashtag-view").style.display = 'block';
-    sliderNavigation.style.display = 'none';
-});
-
-document.getElementById("music-view-btn").addEventListener("click", () => {
-    homeView.style.display = 'none';
-    signInView.style.display = 'none';
-    document.getElementById("music-view").style.display = 'block';
-    sliderNavigation.style.display = 'none';
-});
-
 signInButton.addEventListener("click", () => {
     homeView.style.display = 'none';
     signInView.style.display = 'block';
-    sliderNavigation.style.display = 'none';
 });
 
 document.getElementById("sign-in-form").addEventListener("submit", (event) => {

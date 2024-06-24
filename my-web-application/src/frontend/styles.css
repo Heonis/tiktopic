@@ -298,8 +298,72 @@ section{
 #sign-in-form button:hover, #profile-view-content button:hover {
     background-color: darkviolet;
 }
-
-#profile-card{
+/* */
+#profile-card {
     background-color: white;
-    height: 420px;
+    height: 720px;
+    width: 600px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px 10px #262626;
+    justify-items: center;
+    align-items: center;
+}
+
+#profile-card-upper {
+    height: 300px;
+    width: 600px;
+    background: blueviolet;
+    background-image: linear-gradient(43deg, blueviolet 0%, violet 70%);
+    border-radius: 10px 10px 0px 0px;
+}
+
+#profile-card-upper img {
+    border-radius: 50%;
+    position: absolute;
+    top: 150px; /* Adjusted to position the image properly */
+    left: 200px; /* Adjusted to center the image */
+    width: 200px; /* Increased the width */
+    height: 200px; /* Increased the height */
+    border: 7px solid white;
+    outline: none;
+}
+
+#profile-card h1 {
+    color: darkviolet;
+    text-align: center;
+    position: relative;
+    top: 30px;
+}
+
+#profile-card h2 {
+    color: blueviolet;
+    text-align: center;
+    position: relative;
+    top: 10px;
+    font-size: 2.5em;
+}
+
+#profile-card p {
+    color: blueviolet;
+    text-align: center;
+    position: relative;
+    top: 20px;
+}
+
+#profile-card button {
+    color: white;
+    text-align: center;
+    position: relative;
+    top: 80px;
+    left: 240px;
+}
+
+#profile-card button:hover {
+    background-color: red;
 }
