@@ -258,8 +258,11 @@ function displayMusicProfile(musicInfo) {
                 <p>Author: ${musicInfo.music.authorName}</p>
                 <p>Duration: ${musicInfo.music.duration} seconds</p>
                 <p>Music ID: ${musicInfo.music.id}</p>
-                <p>Video Count: ${musicInfo.stats.videoCount}</p>
-                <p><a href="${musicInfo.music.playURL}" target="_blank">Play URL</a></p>
+                <p>Video Count: ${musicInfo.stats.videoCount} videos</p>
+                <audio controls>
+                    <source src="${musicInfo.music.playUrl}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
 
             </div>
         `;

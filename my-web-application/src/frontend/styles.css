@@ -498,8 +498,8 @@ section{
     color: darkviolet;
     text-align: center;
     position: relative;
-    top: 30px;
-    font-size: 1em;
+    top: 20px;
+    font-size: 1.5em;
 }
 
 #music-profile-card p {
@@ -510,7 +510,7 @@ section{
     font-size: 1.5em;
 }
 
-#music-profile-card a {
+#music-profile-card audio {
     color: blueviolet;
     text-align: center;
     position: relative;
@@ -520,10 +520,7 @@ section{
     margin-bottom: 15px;
 }
 
-#music-profile-card a:hover {
-    text-decoration: underline;
-}
 
-#music-profile-card h1, #music-profile-card p, #music-profile-card a {
+#music-profile-card h1, #music-profile-card p, #music-profile-card audio {
     margin: 10px 0;
 }
