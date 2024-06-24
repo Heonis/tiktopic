@@ -135,6 +135,32 @@ header{
     transition: 0.5, ease;
 }
 
+ul.styled-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    font-size: 1.5em;
+    color: #ffffff;
+    background-color: rgba(172, 71, 178, 0.9);
+}
+
+ul.styled-list li {
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+ul.styled-list li:last-child {
+    border-bottom: none;
+}
+
+ul.styled-list li::before {
+    content: "✔";
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
 header h1{
     color: white;
     font-size: 2em;
@@ -461,6 +487,10 @@ section{
     top: 20px;
 }
 
+#profile-card h1, #profile-card h2, #profile-card p {
+    margin: 10px 0;
+}
+
 #profile-card button {
     color: white;
     text-align: center;
@@ -471,4 +501,56 @@ section{
 
 #profile-card button:hover {
     background-color: red;
+}
+
+/**/
+#user-stats-view {
+    padding: 20px;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+#user-stats-view h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#tiktoker-search {
+    padding: 10px;
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+#search-button {
+    padding: 10px;
+    font-size: 1.2em;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: darkviolet;
+}
+
+#tiktoker-profile-card {
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#tiktoker-profile-card-upper img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 3px solid blueviolet;
+}
+
+#tiktoker-profile-card h1, #tiktoker-profile-card h2, #tiktoker-profile-card p {
+    margin: 10px 0;
 }

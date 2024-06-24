@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Web Application</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="main.js"></script>    
+    <script type="module" src="main.js"></script>  
 </head>
 <body>
     <header>
         <h1 id="homebtn"><a href="#" style="color: white; text-decoration: none;">TikTopick</a></h1>
         <div class="navigation">
             <div class="navigation-items">
-                <span id="user-view">User Stats</span>
-                <span id="hashtag-view">Hashtag Stats</span>
-                <span id="music-view">Music Stats</span>
+                <span id="user-view-btn">User Stats</span>
+                <span id="hashtag-view-btn">Hashtag Stats</span>
+                <span id="music-view-btn">Music Stats</span>
             </div>
         </div>
     </header>
@@ -30,7 +30,7 @@
             <div id="how-to-view" class="view1">
                 <h1>How to Use <span>TikTopick</span></h1>
                 <p>Navigating TikTopick is easy! Start by exploring the main sections: User Stats, Hashtag Stats, and Music Stats. Each section provides detailed analytics and trends. Use the search function to find specific data or browse through our curated lists. Make informed decisions with our comprehensive insights and enhance your TikTok strategy.</p>
-                <ul>
+                <ul class="styled-list">
                     <li>User Stats: Analyze user engagement and growth.</li>
                     <li>Hashtag Stats: Discover trending and effective hashtags.</li>
                     <li>Music Stats: Find out which songs are currently viral.</li>
@@ -63,6 +63,9 @@
                 <div class="nav-btn" data-view="how-to-view"></div>
                 <div class="nav-btn" data-view="get-started-view"></div>
             </div>
+
+            <div id="user-stats-view" class = "view1"></div>
+            
         </section>
     </main>
     <footer>
