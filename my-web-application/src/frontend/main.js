@@ -4,6 +4,16 @@ const signInButton = document.getElementById("sign-in-button");
 const signInView = document.getElementById("sign-in-view");
 const homeView = document.getElementById("home-view");
 const navigationItems = document.querySelector(".navigation-items");
+const sliderNavigation = document.querySelector(".slider-navigation");
+const homebtn = document.querySelector("#homebtn");
+
+homebtn.addEventListener("click", () => {
+    homeView.style.display = 'block';
+    signInView.style.display = 'none';
+    document.getElementById("profile-view-content").style.display = 'none';
+    sliderNav(0)
+})
+
 
 function displayProfile(user) {
     // Create the profile button in the header
@@ -15,6 +25,7 @@ function displayProfile(user) {
         homeView.style.display = 'none';
         signInView.style.display = 'none';
         profileView.style.display = 'block';
+        sliderNavigation.style.display = 'none';
     });
 
     navigationItems.appendChild(profileBtn);
@@ -47,12 +58,14 @@ function displayProfile(user) {
 
         // Redirect to home view
         homeView.style.display = 'block';
+        sliderNavigation.style.display = 'flex';
     });
 
     // Show profile view if already logged in
     homeView.style.display = 'none';
     signInView.style.display = 'none';
     profileView.style.display = 'block';
+    sliderNavigation.style.display = 'none';
 }
 
 var sliderNav = function(manual) {
@@ -66,6 +79,7 @@ var sliderNav = function(manual) {
 
     btns[manual].classList.add("active");
     document.getElementById(btns[manual].getAttribute('data-view')).style.display = 'block';
+    sliderNavigation.style.display = 'flex';
 }
 
 btns.forEach((btn, i) => {
@@ -77,6 +91,7 @@ btns.forEach((btn, i) => {
 signInButton.addEventListener("click", () => {
     homeView.style.display = 'none';
     signInView.style.display = 'block';
+    sliderNavigation.style.display = 'none';
 });
 
 document.getElementById("sign-in-form").addEventListener("submit", (event) => {
