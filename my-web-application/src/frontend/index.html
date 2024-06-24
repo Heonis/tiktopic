@@ -5,16 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Web Application</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module" src="main.js"></script>    
 </head>
 <body>
     <header>
-        <h1>Welcome to My Web Application</h1>
+        <h1 id="home">TikTopick</h1>
+        <div class="navigation">
+            <div class="navigation-items">
+                <span id="user-view">User Stats</span>
+                <span id="hashtag-view">Hashtag Stats</span>
+                <span id="music-view">Music Stats</span>
+            </div>
+        </div>
     </header>
     <main>
-        <section>
-            <p>This is a simple test HTML file to get you 
-               started with your project.</p>
-            <button id="testButton">Click Me</button>
+        <section class="home">
+            <div class="backgroundgif"></div>
+            <div id="home-view" class="view1 active">
+                <h1>Welcome to <span>TikTopick</span></h1>
+                <p>Discover the latest trends and stats on TikTok. Whether you're a content creator, marketer, or just a fan of the platform, TikTopick provides you with up-to-date insights and analytics to stay ahead in the game. Explore trending songs, popular hashtags, and user stats to make the most out of your TikTok experience.</p>
+                <button id="sign-in-button"  >Sign in!</button>
+            </div>
+
+            <div id="how-to-view" class="view1">
+                <h1>How to Use <span>TikTopick</span></h1>
+                <p>Navigating TikTopick is easy! Start by exploring the main sections: User Stats, Hashtag Stats, and Music Stats. Each section provides detailed analytics and trends. Use the search function to find specific data or browse through our curated lists. Make informed decisions with our comprehensive insights and enhance your TikTok strategy.</p>
+                <ul>
+                    <li>User Stats: Analyze user engagement and growth.</li>
+                    <li>Hashtag Stats: Discover trending and effective hashtags.</li>
+                    <li>Music Stats: Find out which songs are currently viral.</li>
+                </ul>
+            </div>
+
+            <div id="get-started-view" class="view1">
+                <h1>Get Started with <span>TikTopick</span></h1>
+                <p>Ready to dive in? Start by exploring our top trending stats or search for specific insights. Whether you're looking to boost your TikTok presence or simply stay updated with the latest trends, TikTopick has you covered. Click the button below to begin your journey!</p>
+                <h3>[Get Started Now!]</h3>
+            </div>
+
+            <div id="sign-in-view" class="view1" style="display:none;">
+                <h1>Sign In</h1>
+                <form id="sign-in-form">
+                    <label for="first-name">First Name:</label>
+                    <input type="text" id="first-name" name="first-name" required>
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" id="last-name" name="last-name" required>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="picture">Picture:</label>
+                    <input type="file" id="picture" name="picture" accept="image/*" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            
+            <div class="slider-navigation">
+                <div class="nav-btn active" data-view="home-view"></div>
+                <div class="nav-btn" data-view="how-to-view"></div>
+                <div class="nav-btn" data-view="get-started-view"></div>
+            </div>
         </section>
     </main>
     <footer>

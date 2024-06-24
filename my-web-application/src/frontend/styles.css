@@ -1,0 +1,305 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+header{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: blueviolet;
+    transition: 0.5, ease;
+}
+
+header h1{
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
+    text-transform: none;
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items span{
+    position: relative;
+    color: white;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s;
+    background-color: transparent;
+    padding: 0.3em;
+}
+
+header .navigation .navigation-items span:before{
+    content: '';
+    position: absolute;
+    background-color: white;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3 ease;
+}
+
+header .navigation .navigation-items span:hover:before{
+    width: 100%;
+}
+
+section{
+    padding: 100px 200px;
+}
+
+.view1 {
+    display: none;
+}
+.view1.active {
+    display: block;
+}
+.home{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(187, 147, 224);
+}
+
+.home #home-view{
+    z-index: 900;
+    color: white;
+    width: 70%;
+    margin-top: 50x;
+}
+
+.view1 h1{
+    font-size: 4em;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    line-height: 75px;
+    margin-bottom: 40px;
+}
+
+.view1 span{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.view1 p{
+    margin-bottom: 65px;
+
+}
+
+.view1 button{
+    background-color: white;    
+    padding: 15px 35px;
+    color: blueviolet;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+header{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: blueviolet;
+    transition: 0.5, ease;
+}
+
+header h1{
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
+    text-transform: none;
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items span{
+    position: relative;
+    color: white;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s;
+    background-color: transparent;
+    padding: 0.3em;
+}
+
+header .navigation .navigation-items span:before{
+    content: '';
+    position: absolute;
+    background-color: white;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3 ease;
+}
+
+header .navigation .navigation-items span:hover:before{
+    width: 100%;
+}
+
+section{
+    padding: 100px 200px;
+}
+
+.home{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(187, 147, 224);
+}
+
+.home .view1{
+    z-index: 900;
+    color: white;
+    width: 70%;
+    margin-top: 50x;
+}
+
+.view1 h1{
+    font-size: 4em;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    line-height: 75px;
+    margin-bottom: 40px;
+}
+
+.view1 span{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.view1 p{
+    margin-bottom: 65px;
+    font-size: 2em;
+
+}
+
+.view1 button{
+    background-color: white;    
+    padding: 15px 35px;
+    color: blueviolet;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.home .backgroundgif {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./giphy.gif') no-repeat center center;
+    background-size: cover;
+}
+
+.slider-navigation{
+    z-index: 800;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(80px);
+    margin-bottom:12px
+}
+
+.slider-navigation .nav-btn{
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50% ;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(255, 255, 0, 0.5);
+    transition: 0.3 ease;
+}
+
+.slider-navigation .nav-btn:not(:last-child){
+    margin-right: 20px;
+}
+
+.slider-navigation .nav-btn:hover{
+    transform: scale(1.5);
+}
+
+.slider-navigation .nav-btn.active{
+    background-color: blueviolet;
+}
+
+
+
+/* Add this CSS to style the sign-in form and profile view */
+#sign-in-form, #profile-view-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#sign-in-form label, #profile-view-content p {
+    margin: 10px 0 5px;
+}
+
+#sign-in-form input, #profile-view-content button {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#sign-in-form button, #profile-view-content button {
+    padding: 10px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#sign-in-form button:hover, #profile-view-content button:hover {
+    background-color: darkviolet;
+}
+
+#profile-card{
+    background-color: white;
+    height: 420px;
+}
