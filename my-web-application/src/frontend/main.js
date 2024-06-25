@@ -5,18 +5,20 @@ const signInView = document.getElementById("sign-in-view");
 const homeView = document.getElementById("home-view");
 const userView = document.getElementById("user-view-btn");
 const musicView = document.getElementById("music-view-btn");
+const hashtagView = document.getElementById("hashtag-view-btn");
 const navigationItems = document.querySelector(".navigation-items");
 const sliderNavigation = document.querySelector(".slider-navigation");
 const homebtn = document.querySelector("#homebtn");
 const userStatsView = document.getElementById("user-stats-view")
 const musicStatsView = document.getElementById("music-stats-view");
-
+const hashtagStatsView = document.getElementById("hashtag-stats-view");
 
 homebtn.addEventListener("click", () => {
     homeView.style.display = 'block';
     signInView.style.display = 'none';
     userStatsView.style.display = "none";
     musicStatsView.style.display = 'none';
+    hashtagStatsView.style.display = 'none';
     document.getElementById("profile-view-content").style.display = 'none';
     sliderNav(0);
 });
@@ -33,6 +35,7 @@ function displayProfile(user) {
         sliderNavigation.style.display = 'none';
         userStatsView.style.display = "none";
         musicStatsView.style.display = 'none';
+        hashtagStatsView.style.display = 'none';
     });
 
     navigationItems.appendChild(profileBtn);
@@ -54,8 +57,8 @@ function displayProfile(user) {
     document.querySelector(".home").appendChild(profileView);
 
     document.getElementById("delete-profile").addEventListener("click", () => {
-        localStorage.removeItem('user');
-        alert("Profile deleted!");
+        localStorage.clear(); // Clear all local storage
+        alert("Profile deleted and local storage cleared!");
         profileBtn.remove();
         profileView.remove();
         homeView.style.display = 'block';
@@ -68,6 +71,7 @@ function displayProfile(user) {
     sliderNavigation.style.display = 'none';
     userStatsView.style.display = "none";
     musicStatsView.style.display = 'none';
+    hashtagStatsView.style.display = 'none';
 }
 
 var sliderNav = function(manual) {
@@ -84,6 +88,7 @@ var sliderNav = function(manual) {
     sliderNavigation.style.display = 'flex';
     userStatsView.style.display = "none";
     musicStatsView.style.display = 'none';
+    hashtagStatsView.style.display = 'none';
 }
 
 btns.forEach((btn, i) => {
@@ -98,6 +103,7 @@ signInButton.addEventListener("click", () => {
     sliderNavigation.style.display = 'none';
     userStatsView.style.display = "none";
     musicStatsView.style.display = 'none';
+    hashtagStatsView.style.display = 'none';
 });
 
 document.getElementById("sign-in-form").addEventListener("submit", (event) => {
@@ -131,6 +137,8 @@ userView.addEventListener("click", () => {
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
+    musicStatsView.style.display = "none";
+    hashtagStatsView.style.display = 'none';
     const profileView = document.getElementById("profile-view-content")
     profileView.style.display = 'none';
     displayUserStatsView();
@@ -140,11 +148,23 @@ musicView.addEventListener("click", () => {
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
+    hashtagStatsView.style.display = 'none';
+    userStatsView.style.display = "none"
     const profileView = document.getElementById("profile-view-content")
     profileView.style.display = 'none';
     displayMusicStatsView();
 });
 
+hashtagView.addEventListener("click", () => {
+    homeView.style.display = "none";
+    signInView.style.display = "none";
+    sliderNavigation.style.display = "none";
+    userStatsView.style.display = "none";
+    musicStatsView.style.display = "none";
+    const profileView = document.getElementById("profile-view-content")
+    profileView.style.display = 'none';
+    displayHashtagStatsView();
+});
 
 function displayUserStatsView() {
     userStatsView.innerHTML = `
@@ -193,7 +213,7 @@ function displayTiktokerProfile(profile) {
                     <img src="${profile.user.avatarThumb}" alt="Profile Picture">
                 </div>
                 <h1>${profile.user.nickname}</h1>
-                <p>Unique ID: ${profile.user.nickname}</>
+                <p>Unique ID: ${profile.user.nickname}</p>
                 <p>Signature: ${profile.user.signature}</p>
                 <p>isUnderAge18: ${profile.user.isUnderAge18}</p>
                 <p>followerCount: ${profile.stats.followerCount}</p>
@@ -271,10 +291,60 @@ function displayMusicProfile(musicInfo) {
     }
 }
 
-function hideUserStatsView() {
-    const userStatsView = document.getElementById("user-stats-view");
-    if (userStatsView) {
-        userStatsView.style.display = 'none';
+
+function displayHashtagStatsView() {
+    hashtagStatsView.innerHTML = `
+        <h1>Hashtag Stats</h1>
+        <input type="text" id="hashtag-search" class="search" placeholder="Search for a Hashtag" />
+        <button id="hashtag-search-button" class="search-button">Search</button>
+        <div id="hashtag-profile"></div>
+    `;
+    views.forEach((view) => {
+        view.style.display = 'none';
+    });
+    hashtagStatsView.style.display = 'block';
+
+    document.getElementById("hashtag-search-button").addEventListener("click", searchHashtagHandler);
+
+    const lastHashtagStats = JSON.parse(localStorage.getItem('lastHashtagStats'));
+    if (lastHashtagStats) {
+        displayHashtagProfile(lastHashtagStats); // Display last hashtag stats if available
+    }
+}
+
+async function searchHashtagHandler() {
+    const hashtag = document.getElementById("hashtag-search").value;
+    if (hashtag) {
+        try {
+            const response = await fetch(`/search-hashtag?hashtag=${hashtag}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const hashtagInfo = await response.json();
+            displayHashtagProfile(hashtagInfo);
+            localStorage.setItem('lastHashtagStats', JSON.stringify(hashtagInfo)); // Save last hashtag stats
+        } catch (error) {
+            console.error(error);
+            document.getElementById("hashtag-profile").innerHTML = `<p>Error fetching hashtag data: ${error.message}</p>`;
+        }
+    }
+}
+
+function displayHashtagProfile(hashtagInfo) {
+    const hashtagDiv = document.getElementById("hashtag-profile");
+    if (hashtagInfo) {
+        hashtagDiv.innerHTML = `
+            <div id="hashtag-profile-card">
+                <div id="hashtag-profile-card-upper">
+                    <img src="${hashtagInfo.challengeInfo.challenge.coverThumb}" alt="Cover Picture">
+                </div>
+                <h1>#${hashtagInfo.challengeInfo.challenge.title} on Tiktok</h1>
+                <p>Video Count: ${hashtagInfo.challengeInfo.statsV2.videoCount} videos</p>
+                <p>Views Count: ${hashtagInfo.challengeInfo.statsV2.viewCount} views</p>
+            </div>
+        `;
+    } else {
+        hashtagDiv.innerHTML = `<p>Hashtag not found or missing information</p>`;
     }
 }
 

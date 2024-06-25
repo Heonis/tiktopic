@@ -48,6 +48,23 @@ app.get('/search-music', async (req, res) => {
     }
 });
 
+app.get('/search-hashtag', async (req, res) => {
+    const hashtag = req.query.hashtag;
+    try {
+      console.log(`Searching for Hashtag: ${hashtag}`);
+      const response = await api.public.hashtag({ name: hashtag });
+      console.log('TikAPI response:', response.json);
+      if (response.json && response.json.challengeInfo) {
+        res.json(response.json);
+      } else {
+        throw new Error('No hashtag info in response');
+      }
+    } catch (error) {
+      console.error('Error fetching hashtag data:', error);
+      res.status(500).json({ error: 'Failed to fetch hashtag data' });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -524,3 +524,43 @@ section{
 #music-profile-card h1, #music-profile-card p, #music-profile-card audio {
     margin: 10px 0;
 }
+
+/* Hashtag Stats View Styling */
+#hashtag-stats-view {
+    padding: 20px;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+#hashtag-stats-view h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#hashtag-profile-card {
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#hashtag-profile-card h1 {
+    color: darkviolet;
+    text-align: center;
+    position: relative;
+    top: 30px;
+}
+
+#hashtag-profile-card p {
+    color: blueviolet;
+    text-align: center;
+    position: relative;
+    top: 10px;
+    font-size: 1.5em;
+}
+
+#hashtag-profile-card h1, #hashtag-profile-card p {
+    margin: 10px 0;
+}
