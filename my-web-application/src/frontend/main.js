@@ -1,3 +1,31 @@
+/*
+    1. Element Selection:
+        - Selects various HTML elements such as buttons, views, and navigation items using `document.querySelector` and `document.querySelectorAll`.
+
+    2. Event Listeners:
+        - Sets up event listeners for the home button, navigation buttons, and sign-in button to handle view transitions and user interactions.
+
+    3. Function Definitions:
+        - displayProfile(user): Dynamically creates and displays the user's profile view based on the provided user object.
+        - sliderNav(manual): Manages the active state of navigation buttons and displays the corresponding view based on user selection.
+        - displayUserStatsView(): Sets up and displays the User Stats view with a search input and button to fetch TikTok user data.
+        - displayMusicStatsView(): Sets up and displays the Music Stats view with a search input and button to fetch TikTok music data.
+        - displayHashtagStatsView(): Sets up and displays the Hashtag Stats view with a search input and button to fetch TikTok hashtag data.
+        - searchTiktokerHandler(): Fetches and displays TikTok user data based on the search input.
+        - searchMusicHandler(): Fetches and displays TikTok music data based on the search input.
+        - searchHashtagHandler(): Fetches and displays TikTok hashtag data based on the search input.
+        - displayTiktokerProfile(profile): Displays the fetched TikTok user profile data.
+        - displayMusicProfile(musicInfo): Displays the fetched TikTok music data.
+        - displayHashtagProfile(hashtagInfo): Displays the fetched TikTok hashtag data.
+
+    4. Local Storage Management:
+        - Saves and retrieves user, user stats, music stats, and hashtag stats from local storage to persist data across sessions.
+        - Handles profile deletion and clears local storage.
+
+    5. Initialization
+        - Checks for saved user data, user stats, music stats, and hashtag stats in local storage on page load and displays them if available.
+*/
+// Selecting elements from the DOM
 const btns = document.querySelectorAll(".nav-btn");
 const views = document.querySelectorAll(".view1");
 const signInButton = document.getElementById("sign-in-button");
@@ -13,7 +41,9 @@ const userStatsView = document.getElementById("user-stats-view");
 const musicStatsView = document.getElementById("music-stats-view");
 const hashtagStatsView = document.getElementById("hashtag-stats-view");
 
+// Home button event listener
 homebtn.addEventListener("click", () => {
+    // Display home view and hide other views
     homeView.style.display = 'block';
     signInView.style.display = 'none';
     userStatsView.style.display = "none";
@@ -23,15 +53,17 @@ homebtn.addEventListener("click", () => {
     if (profileView) {
         profileView.style.display = 'none';
     }
-    sliderNav(0);
+    sliderNav(0); // Activate first navigation button
 });
 
+// Function to display profile
 function displayProfile(user) {
     const profileBtn = document.createElement("span");
     profileBtn.id = "profile-view";
     profileBtn.textContent = "Profile";
     profileBtn.style.cursor = "pointer";
     profileBtn.addEventListener("click", () => {
+        // Display profile view and hide other views
         homeView.style.display = 'none';
         signInView.style.display = 'none';
         const profileView = document.getElementById("profile-view-content");
@@ -60,6 +92,7 @@ function displayProfile(user) {
     `;
     document.querySelector(".home").appendChild(profileView);
 
+    // Event listener for deleting profile
     document.getElementById("delete-profile").addEventListener("click", () => {
         localStorage.clear(); // Clear all local storage
         alert("Profile deleted!");
@@ -69,6 +102,7 @@ function displayProfile(user) {
         sliderNavigation.style.display = 'flex';
     });
 
+    // Initial display setup
     homeView.style.display = 'none';
     signInView.style.display = 'none';
     profileView.style.display = 'block';
@@ -78,6 +112,7 @@ function displayProfile(user) {
     hashtagStatsView.style.display = 'none';
 }
 
+// Function for slider navigation
 var sliderNav = function(manual) {
     btns.forEach((btn) => {
         btn.classList.remove("active");
@@ -95,13 +130,16 @@ var sliderNav = function(manual) {
     hashtagStatsView.style.display = 'none';
 }
 
+// Add event listeners to slider navigation buttons
 btns.forEach((btn, i) => {
     btn.addEventListener("click", () => {
         sliderNav(i);
     });
 });
 
+// Sign-in button event listener
 signInButton.addEventListener("click", () => {
+    // Display sign-in view and hide other views
     homeView.style.display = 'none';
     signInView.style.display = 'block';
     sliderNavigation.style.display = 'none';
@@ -110,6 +148,7 @@ signInButton.addEventListener("click", () => {
     hashtagStatsView.style.display = 'none';
 });
 
+// Event listener for sign-in form submission
 document.getElementById("sign-in-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const firstName = document.getElementById("first-name").value;
@@ -137,43 +176,50 @@ document.getElementById("sign-in-form").addEventListener("submit", (event) => {
     }
 });
 
+// User stats view button event listener
 userView.addEventListener("click", () => {
+    // Display user stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
     musicStatsView.style.display = "none";
     hashtagStatsView.style.display = 'none';
-    const profileView = document.getElementById("profile-view-content")
+    const profileView = document.getElementById("profile-view-content");
     if (profileView) {
         profileView.style.display = 'none';
     }
     displayUserStatsView();
 });
 
+// Music stats view button event listener
 musicView.addEventListener("click", () => {
+    // Display music stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
     hashtagStatsView.style.display = 'none';
-    userStatsView.style.display = "none"
-    const profileView = document.getElementById("profile-view-content")
+    userStatsView.style.display = "none";
+    const profileView = document.getElementById("profile-view-content");
     if (profileView) {
         profileView.style.display = 'none';
     }
     displayMusicStatsView();
 });
 
+// Hashtag stats view button event listener
 hashtagView.addEventListener("click", () => {
+    // Display hashtag stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
-    const profileView = document.getElementById("profile-view-content")
+    const profileView = document.getElementById("profile-view-content");
     if (profileView) {
         profileView.style.display = 'none';
     }
     displayHashtagStatsView();
 });
 
+// Function to display user stats view
 function displayUserStatsView() {
     userStatsView.innerHTML = `
         <h1>User Stats</h1>
@@ -194,6 +240,7 @@ function displayUserStatsView() {
     }
 }
 
+// Function to handle TikToker search
 async function searchTiktokerHandler() {
     const username = document.getElementById("tiktoker-search").value;
     if (username) {
@@ -212,6 +259,7 @@ async function searchTiktokerHandler() {
     }
 }
 
+// Function to display TikToker profile
 function displayTiktokerProfile(profile) {
     const profileDiv = document.getElementById("tiktoker-profile");
     if (profile) {
@@ -236,6 +284,7 @@ function displayTiktokerProfile(profile) {
     }
 }
 
+// Function to display music stats view
 function displayMusicStatsView() {
     musicStatsView.innerHTML = `
         <h1>Music Stats</h1>
@@ -256,6 +305,7 @@ function displayMusicStatsView() {
     }
 }
 
+// Function to handle music search
 async function searchMusicHandler() {
     const musicId = document.getElementById("music-search").value;
     if (musicId) {
@@ -274,6 +324,7 @@ async function searchMusicHandler() {
     }
 }
 
+// Function to display music profile
 function displayMusicProfile(musicInfo) {
     const musicDiv = document.getElementById("music-profile");
     if (musicInfo) {
@@ -298,6 +349,7 @@ function displayMusicProfile(musicInfo) {
     }
 }
 
+// Function to display hashtag stats view
 function displayHashtagStatsView() {
     hashtagStatsView.innerHTML = `
         <h1>Hashtag Stats</h1>
@@ -318,6 +370,7 @@ function displayHashtagStatsView() {
     }
 }
 
+// Function to handle hashtag search
 async function searchHashtagHandler() {
     const hashtag = document.getElementById("hashtag-search").value;
     if (hashtag) {
@@ -336,6 +389,7 @@ async function searchHashtagHandler() {
     }
 }
 
+// Function to display hashtag profile
 function displayHashtagProfile(hashtagInfo) {
     const hashtagDiv = document.getElementById("hashtag-profile");
     if (hashtagInfo) {
@@ -354,7 +408,7 @@ function displayHashtagProfile(hashtagInfo) {
     }
 }
 
-// Check for saved user on page load
+// Check for saved user, stats on page load
 document.addEventListener("DOMContentLoaded", () => {
     const savedUser = JSON.parse(localStorage.getItem('user'));
     if (savedUser) {

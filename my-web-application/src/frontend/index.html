@@ -1,3 +1,18 @@
+<!--
+    This HTML document structures the TikTopick web application, providing various sections and views for users to explore TikTok statistics, including user stats, hashtag stats, and music stats. The document is divided into the following main components:
+        - Header: Contains the main navigation bar with links to different views (User Stats, Hashtag Stats, and Music Stats) and the home button.
+        - Main Section: Includes various views and sections that are dynamically displayed based on user interactions.
+            - Home View: The default view that welcomes users to the application and provides an overview of its features.
+            - How-to View: Provides instructions on how to navigate and use the application.
+            - Get Started View: Encourages users to start exploring the application.
+            - Sign-in View: Contains a form for users to sign in and save their profiles.
+            - User Stats View: Displays statistics and information about TikTok users.
+            - Hashtag Stats View: Displays statistics and information about TikTok hashtags.
+            - Music Stats View: Displays statistics and information about TikTok music tracks.
+            - Profile View: Displays the signed-in user's profile information and allows them to delete their profile.
+
+    Each view and section is styled and controlled via CSS and JavaScript to ensure a seamless and interactive user experience. The JavaScript code manages dynamic content display, form submissions, and interactions with the TikTopick API to fetch and display TikTok data.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +23,14 @@
     <script type="module" src="main.js"></script>  
 </head>
 <body>
+    <!-- Header section -->
     <header>
+        <!-- Home button -->
         <h1 id="homebtn"><a href="#" style="color: white; text-decoration: none;">TikTopick</a></h1>
+        <!-- Navigation bar -->
         <div class="navigation">
             <div class="navigation-items">
+                <!-- Navigation buttons -->
                 <span id="user-view-btn">User Stats</span>
                 <span id="hashtag-view-btn">Hashtag Stats</span>
                 <span id="music-view-btn">Music Stats</span>
@@ -21,12 +40,14 @@
     <main>
         <section class="home">
             <div class="backgroundgif"></div>
+            <!-- Home view -->
             <div id="home-view" class="view1 active">
                 <h1>Welcome to <span>TikTopick</span></h1>
                 <p>Discover the latest trends and stats on TikTok. Whether you're a content creator, marketer, or just a fan of the platform, TikTopick provides you with up-to-date insights and analytics to stay ahead in the game. Explore trending songs, popular hashtags, and user stats to make the most out of your TikTok experience.</p>
                 <button id="sign-in-button">Sign in!</button>
             </div>
 
+            <!-- How-to view -->
             <div id="how-to-view" class="view1">
                 <h1>How to Use <span>TikTopick</span></h1>
                 <p>Navigating TikTopick is easy! Start by exploring the main sections: User Stats, Hashtag Stats, and Music Stats. Each section provides detailed analytics and trends. Use the search function to find specific data or browse through our curated lists. Make informed decisions with our comprehensive insights and enhance your TikTok strategy.</p>
@@ -37,15 +58,18 @@
                 </ul>
             </div>
 
+            <!-- Get started view -->
             <div id="get-started-view" class="view1">
                 <h1>Get Started with <span>TikTopick</span></h1>
                 <p>Ready to dive in? Start by exploring our top trending stats or search for specific insights. Whether you're looking to boost your TikTok presence or simply stay updated with the latest trends, TikTopick has you covered. Click the button below to begin your journey!</p>
                 <h3>[Get Started Now!]</h3>
             </div>
 
+            <!-- Sign-in view -->
             <div id="sign-in-view" class="view1" style="display:none;">
                 <h1>Sign In</h1>
                 <form id="sign-in-form">
+                    <!-- Sign-in form fields -->
                     <label for="first-name">First Name:</label>
                     <input type="text" id="first-name" name="first-name" required>
                     <label for="last-name">Last Name:</label>
@@ -58,18 +82,21 @@
                 </form>
             </div>
 
+            <!-- Slider navigation -->
             <div class="slider-navigation">
                 <div class="nav-btn active" data-view="home-view"></div>
                 <div class="nav-btn" data-view="how-to-view"></div>
                 <div class="nav-btn" data-view="get-started-view"></div>
             </div>
 
-            <div id="user-stats-view" class = "view1"></div>
-            <div id="hashtag-stats-view" class = "view1"></div>
-            <div id="music-stats-view" class = "view1"></div>
+            <!-- Views for user, hashtag, and music stats -->
+            <div id="user-stats-view" class="view1"></div>
+            <div id="hashtag-stats-view" class="view1"></div>
+            <div id="music-stats-view" class="view1"></div>
             
         </section>
     </main>
+    <!-- Footer section -->
     <footer>
         <p>&copy; 2024 My Web Application</p>
     </footer>

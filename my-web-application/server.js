@@ -1,71 +1,102 @@
+/*
+    1. Module Imports:
+        - Imports necessary modules such as `express` for creating the server, `path` for handling file paths, and `TikAPI` for interacting with the TikTok API.
+        - Initializes the TikAPI with the provided API key.
+        - Sets up middleware to serve static files from the `src/frontend` directory.
+
+    4. Route Definitions:
+        - GET `/`: Serves the main `index.html` file for the web application.
+        - GET `/search-tiktoker`: Handles requests to search for a TikTok user by username. Fetches user data from the TikAPI and returns it as a JSON response.
+        - GET `/search-music`: Handles requests to search for TikTok music by music ID. Fetches music data from the TikAPI and returns it as a JSON response.
+        - GET `/search-hashtag`: Handles requests to search for a TikTok hashtag by name. Fetches hashtag data from the TikAPI and returns it as a JSON response.
+
+    5. Error Handling:
+        - Catches and logs errors that occur during API requests and sends a 500 status code with an error message in the response.
+
+    6. Server Initialization:
+        - Starts the server on the specified port (default is 3000) and logs a message indicating that the server is running.
+*/
+
+// Importing required modules
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import TikAPI from 'tikapi';
 
+// Initializing TikAPI with an API key
 const api = TikAPI("9TaHGfvrpNalxSaMi9Ebjn5NyMLpZ01gJUP1116DATpSpvub");
+
+// Creating an instance of an Express application
 const app = express();
+
+// Getting the current file's name and directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Serving static files from the 'src/frontend' directory
 app.use(express.static(path.join(__dirname, 'src/frontend')));
 
+// Handling GET request for the root URL and sending 'index.html' as the response
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/frontend', 'index.html'));
 });
 
+// Handling GET request for '/search-tiktoker' endpoint
 app.get('/search-tiktoker', async (req, res) => {
-  const username = req.query.username;
+  const username = req.query.username; // Getting the username from query parameters
   try {
-    console.log(`Searching for TikToker: ${username}`);
-    const response = await api.public.check({ username });
-    console.log('TikAPI response:', response);
+    console.log(`Searching for TikToker: ${username}`); // Logging the username
+    const response = await api.public.check({ username }); // Fetching TikToker data from TikAPI
+    console.log('TikAPI response:', response); // Logging the API response
     if (response.json && response.json.userInfo) {
-      res.json(response.json.userInfo);
+      res.json(response.json.userInfo); // Sending the user information as the response
     } else {
-      throw new Error('No userInfo in response');
+      throw new Error('No userInfo in response'); // Throwing an error if no user information is found
     }
   } catch (error) {
-    console.error('Error fetching TikToker data:', error);
-    res.status(500).json({ error: 'Failed to fetch TikToker data' });
+    console.error('Error fetching TikToker data:', error); // Logging the error
+    res.status(500).json({ error: 'Failed to fetch TikToker data' }); // Sending error response with status 500
   }
 });
 
+// Handling GET request for '/search-music' endpoint
 app.get('/search-music', async (req, res) => {
-    const musicId = req.query.musicId;
-    try {
-      console.log(`Searching for Music: ${musicId}`);
-      const response = await api.public.musicInfo({ id: musicId });
-      console.log('TikAPI response:', response);
-      if (response.json && response.json.musicInfo) {
-        res.json(response.json.musicInfo);
-      } else {
-        throw new Error('No music info in response');
-      }
-    } catch (error) {
-      console.error('Error fetching music data:', error);
-      res.status(500).json({ error: 'Failed to fetch music data' });
+  const musicId = req.query.musicId; // Getting the music ID from query parameters
+  try {
+    console.log(`Searching for Music: ${musicId}`); // Logging the music ID
+    const response = await api.public.musicInfo({ id: musicId }); // Fetching music data from TikAPI
+    console.log('TikAPI response:', response); // Logging the API response
+    if (response.json && response.json.musicInfo) {
+      res.json(response.json.musicInfo); // Sending the music information as the response
+    } else {
+      throw new Error('No music info in response'); // Throwing an error if no music information is found
     }
+  } catch (error) {
+    console.error('Error fetching music data:', error); // Logging the error
+    res.status(500).json({ error: 'Failed to fetch music data' }); // Sending error response with status 500
+  }
 });
 
+// Handling GET request for '/search-hashtag' endpoint
 app.get('/search-hashtag', async (req, res) => {
-    const hashtag = req.query.hashtag;
-    try {
-      console.log(`Searching for Hashtag: ${hashtag}`);
-      const response = await api.public.hashtag({ name: hashtag });
-      console.log('TikAPI response:', response.json);
-      if (response.json && response.json.challengeInfo) {
-        res.json(response.json);
-      } else {
-        throw new Error('No hashtag info in response');
-      }
-    } catch (error) {
-      console.error('Error fetching hashtag data:', error);
-      res.status(500).json({ error: 'Failed to fetch hashtag data' });
+  const hashtag = req.query.hashtag; // Getting the hashtag from query parameters
+  try {
+    console.log(`Searching for Hashtag: ${hashtag}`); // Logging the hashtag
+    const response = await api.public.hashtag({ name: hashtag }); // Fetching hashtag data from TikAPI
+    console.log('TikAPI response:', response.json); // Logging the API response
+    if (response.json && response.json.challengeInfo) {
+      res.json(response.json); // Sending the hashtag information as the response
+    } else {
+      throw new Error('No hashtag info in response'); // Throwing an error if no hashtag information is found
     }
+  } catch (error) {
+    console.error('Error fetching hashtag data:', error); // Logging the error
+    res.status(500).json({ error: 'Failed to fetch hashtag data' }); // Sending error response with status 500
+  }
 });
 
+// Starting the server on a specified port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`); // Logging the port number
 });
