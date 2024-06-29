@@ -1,7 +1,7 @@
 {
   "name": "my-web-application",
   "version": "1.0.0",
-  "description": "",
+  "description": "To get started with the project, follow these steps:\r 1. **Clone the Repository:**\r    ```sh\r    git clone <repository-url>\r    cd my-web-application",
   "main": "server.js",
   "type": "module",
   "license": "AGPL-version-3.0",
@@ -17,10 +17,7 @@
   },
   "bugs": "",
   "keywords": [],
-  "author": {
-    "name": "Heonir Feliz",
-    "email": "hfeliz@umass.edu"
-  },
+  "author": "Heonir Feliz <hfeliz@umass.edu>",
   "contributors": [],
   "scripts": {
     "start": "node server.js",
@@ -29,6 +26,7 @@
   },
   "dependencies": {
     "express": "^4.19.2",
+    "pouchdb": "^7.3.1",
     "rests": "^1.1.1",
     "tikapi": "^3.1.6"
   }

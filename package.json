@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "pouchdb": "^9.0.0",
     "tikapi": "^3.1.6"
   }
 }

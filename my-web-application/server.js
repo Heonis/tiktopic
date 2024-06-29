@@ -22,12 +22,16 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import TikAPI from 'tikapi';
+import PouchDB from 'pouchdb';
 
-// Initializing TikAPI with an API key
+
+// Initialize PouchDB and TikAPI
+const db = new PouchDB('tiktok-users');
 const api = TikAPI("9TaHGfvrpNalxSaMi9Ebjn5NyMLpZ01gJUP1116DATpSpvub");
 
 // Creating an instance of an Express application
 const app = express();
+app.use(express.json());
 
 // Getting the current file's name and directory
 const __filename = fileURLToPath(import.meta.url);
@@ -40,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'src/frontend')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/frontend', 'index.html'));
 });
+
 
 // Handling GET request for '/search-tiktoker' endpoint
 app.get('/search-tiktoker', async (req, res) => {
@@ -92,6 +97,54 @@ app.get('/search-hashtag', async (req, res) => {
   } catch (error) {
     console.error('Error fetching hashtag data:', error); // Logging the error
     res.status(500).json({ error: 'Failed to fetch hashtag data' }); // Sending error response with status 500
+  }
+});
+
+
+// Create (POST): Add a new user profile
+app.post('/tiktok-users', async (req, res) => {
+  try {
+    const userProfile = req.body;
+    const response = await db.post(userProfile);
+    console.log("Tiktok user created and stored in the server")
+    res.status(201).json({ message: 'User profile created', response });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create user profile' });
+  }
+});
+
+// Read (GET): Retrieve all user profiles or a single user profile by ID
+app.get('/tiktok-users', async (req, res) => {
+  try {
+    const result = await db.allDocs({ include_docs: true });
+    res.json(result.rows.map(row => row.doc));
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user profiles' });
+  }
+});
+
+// Update (PUT): Modify an existing user profile by ID
+app.put('/tiktok-users/:id', async (req, res) => {
+  try {
+    const userProfile = await db.get(req.params.id);
+    const updatedUserProfile = { ...userProfile, ...req.body };
+    const response = await db.put(updatedUserProfile);
+    console.log("Tiktok user modified and stored in the server")
+    res.json({ message: 'User profile updated', response });
+  } catch (error) {
+    res.status(404).json({ error: 'User profile not found' });
+  }
+});
+
+// Delete (DELETE): Remove a user profile by ID
+app.delete('/tiktok-users/:id', async (req, res) => {
+  try {
+    const userProfile = await db.get(req.params.id);
+    const response = await db.remove(userProfile);
+    console.log("Tiktok user deleted and removed from the server")
+    res.json({ message: 'User profile deleted', response });
+  } catch (error) {
+    res.status(404).json({ error: 'User profile not found' });
   }
 });
 

@@ -25,6 +25,7 @@
     5. Initialization
         - Checks for saved user data, user stats, music stats, and hashtag stats in local storage on page load and displays them if available.
 */
+
 // Selecting elements from the DOM
 const btns = document.querySelectorAll(".nav-btn");
 const views = document.querySelectorAll(".view1");
@@ -43,7 +44,6 @@ const hashtagStatsView = document.getElementById("hashtag-stats-view");
 
 // Home button event listener
 homebtn.addEventListener("click", () => {
-    // Display home view and hide other views
     homeView.style.display = 'block';
     signInView.style.display = 'none';
     userStatsView.style.display = "none";
@@ -57,13 +57,12 @@ homebtn.addEventListener("click", () => {
 });
 
 // Function to display profile
-function displayProfile(user) {
+async function displayProfile(user) {
     const profileBtn = document.createElement("span");
     profileBtn.id = "profile-view";
     profileBtn.textContent = "Profile";
     profileBtn.style.cursor = "pointer";
     profileBtn.addEventListener("click", () => {
-        // Display profile view and hide other views
         homeView.style.display = 'none';
         signInView.style.display = 'none';
         const profileView = document.getElementById("profile-view-content");
@@ -92,17 +91,26 @@ function displayProfile(user) {
     `;
     document.querySelector(".home").appendChild(profileView);
 
-    // Event listener for deleting profile
-    document.getElementById("delete-profile").addEventListener("click", () => {
-        localStorage.clear(); // Clear all local storage
-        alert("Profile deleted!");
-        profileBtn.remove();
-        profileView.remove();
-        homeView.style.display = 'block';
-        sliderNavigation.style.display = 'flex';
+    document.getElementById("delete-profile").addEventListener("click", async () => {
+        try {
+            const response = await fetch(`/tiktok-users/${user._id}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            localStorage.clear();
+            alert("Profile deleted!");
+            profileBtn.remove();
+            profileView.remove();
+            homeView.style.display = 'block';
+            sliderNavigation.style.display = 'flex';
+        } catch (error) {
+            alert('Error deleting profile!');
+            console.error(error);
+        }
     });
 
-    // Initial display setup
     homeView.style.display = 'none';
     signInView.style.display = 'none';
     profileView.style.display = 'block';
@@ -130,16 +138,13 @@ var sliderNav = function(manual) {
     hashtagStatsView.style.display = 'none';
 }
 
-// Add event listeners to slider navigation buttons
 btns.forEach((btn, i) => {
     btn.addEventListener("click", () => {
         sliderNav(i);
     });
 });
 
-// Sign-in button event listener
 signInButton.addEventListener("click", () => {
-    // Display sign-in view and hide other views
     homeView.style.display = 'none';
     signInView.style.display = 'block';
     sliderNavigation.style.display = 'none';
@@ -148,8 +153,7 @@ signInButton.addEventListener("click", () => {
     hashtagStatsView.style.display = 'none';
 });
 
-// Event listener for sign-in form submission
-document.getElementById("sign-in-form").addEventListener("submit", (event) => {
+document.getElementById("sign-in-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const firstName = document.getElementById("first-name").value;
     const lastName = document.getElementById("last-name").value;
@@ -157,7 +161,7 @@ document.getElementById("sign-in-form").addEventListener("submit", (event) => {
     const picture = document.getElementById("picture").files[0];
 
     const reader = new FileReader();
-    reader.onloadend = function () {
+    reader.onloadend = async function () {
         const user = {
             firstName: firstName,
             lastName: lastName,
@@ -165,10 +169,27 @@ document.getElementById("sign-in-form").addEventListener("submit", (event) => {
             picture: reader.result
         };
 
-        localStorage.setItem('user', JSON.stringify(user));
-        alert("User information saved!");
-
-        displayProfile(user);
+        try {
+            const response = await fetch('/tiktok-users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const result = await response.json();
+            user._id = result.response.id;
+            user._rev = result.response.rev;
+            localStorage.setItem('user', JSON.stringify(user));
+            alert("User information saved!");
+            displayProfile(user);
+        } catch (error) {
+            alert('Error saving user information!');
+            console.error(error);
+        }
     };
 
     if (picture) {
@@ -176,9 +197,7 @@ document.getElementById("sign-in-form").addEventListener("submit", (event) => {
     }
 });
 
-// User stats view button event listener
 userView.addEventListener("click", () => {
-    // Display user stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
@@ -191,9 +210,7 @@ userView.addEventListener("click", () => {
     displayUserStatsView();
 });
 
-// Music stats view button event listener
 musicView.addEventListener("click", () => {
-    // Display music stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
@@ -206,9 +223,7 @@ musicView.addEventListener("click", () => {
     displayMusicStatsView();
 });
 
-// Hashtag stats view button event listener
 hashtagView.addEventListener("click", () => {
-    // Display hashtag stats view and hide other views
     homeView.style.display = "none";
     signInView.style.display = "none";
     sliderNavigation.style.display = "none";
@@ -219,7 +234,6 @@ hashtagView.addEventListener("click", () => {
     displayHashtagStatsView();
 });
 
-// Function to display user stats view
 function displayUserStatsView() {
     userStatsView.innerHTML = `
         <h1>User Stats</h1>
@@ -240,7 +254,6 @@ function displayUserStatsView() {
     }
 }
 
-// Function to handle TikToker search
 async function searchTiktokerHandler() {
     const username = document.getElementById("tiktoker-search").value;
     if (username) {
@@ -259,7 +272,6 @@ async function searchTiktokerHandler() {
     }
 }
 
-// Function to display TikToker profile
 function displayTiktokerProfile(profile) {
     const profileDiv = document.getElementById("tiktoker-profile");
     if (profile) {
@@ -269,7 +281,7 @@ function displayTiktokerProfile(profile) {
                     <img src="${profile.user.avatarThumb}" alt="Profile Picture">
                 </div>
                 <h1>${profile.user.nickname}</h1>
-                <p>Unique ID: ${profile.user.nickname}</>
+                <p>Unique ID: ${profile.user.nickname}</p>
                 <p>Signature: ${profile.user.signature}</p>
                 <p>isUnderAge18: ${profile.user.isUnderAge18}</p>
                 <p>followerCount: ${profile.stats.followerCount}</p>
@@ -284,7 +296,6 @@ function displayTiktokerProfile(profile) {
     }
 }
 
-// Function to display music stats view
 function displayMusicStatsView() {
     musicStatsView.innerHTML = `
         <h1>Music Stats</h1>
@@ -305,7 +316,6 @@ function displayMusicStatsView() {
     }
 }
 
-// Function to handle music search
 async function searchMusicHandler() {
     const musicId = document.getElementById("music-search").value;
     if (musicId) {
@@ -324,7 +334,6 @@ async function searchMusicHandler() {
     }
 }
 
-// Function to display music profile
 function displayMusicProfile(musicInfo) {
     const musicDiv = document.getElementById("music-profile");
     if (musicInfo) {
@@ -349,7 +358,6 @@ function displayMusicProfile(musicInfo) {
     }
 }
 
-// Function to display hashtag stats view
 function displayHashtagStatsView() {
     hashtagStatsView.innerHTML = `
         <h1>Hashtag Stats</h1>
@@ -370,7 +378,6 @@ function displayHashtagStatsView() {
     }
 }
 
-// Function to handle hashtag search
 async function searchHashtagHandler() {
     const hashtag = document.getElementById("hashtag-search").value;
     if (hashtag) {
@@ -389,7 +396,6 @@ async function searchHashtagHandler() {
     }
 }
 
-// Function to display hashtag profile
 function displayHashtagProfile(hashtagInfo) {
     const hashtagDiv = document.getElementById("hashtag-profile");
     if (hashtagInfo) {
@@ -409,7 +415,7 @@ function displayHashtagProfile(hashtagInfo) {
 }
 
 // Check for saved user, stats on page load
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const savedUser = JSON.parse(localStorage.getItem('user'));
     if (savedUser) {
         displayProfile(savedUser);
